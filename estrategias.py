@@ -1,8 +1,8 @@
 import time
-import numpy as np
 from rich.console import Console
 from rich.table import Table
 from numba import jit
+import main
 
 def estrategia_gulosa(pesoMax, custo, beneficio, tam, mochila):
     
@@ -46,14 +46,16 @@ def estrategia_gulosa(pesoMax, custo, beneficio, tam, mochila):
     for item in armazenado:
         benefGulosa += beneficio[item] # Soma o benefício dos itens armazenados
 
+    main.clear_terminal()
+
     # Printando os resultados
     Console().rule("Estratégia gulosa")
     
     # Configuração da tabela
     table = Table(title=f"\nArquivo de entrada {mochila.entrada}", show_header=True, header_style="bold magenta")
-    table.add_column("Custo benefício", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Peso máximo restante", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Tempo da estratégia gulosa", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Custo benefício", justify="center", style="yellow", no_wrap=True)
+    table.add_column("Peso máximo restante", justify="center", style="red", no_wrap=True)
+    table.add_column("Tempo da estratégia gulosa", justify="center", style="purple", no_wrap=True)
     table.add_row(str(benefGulosa), str(pesoMax), str(final))
 
     # Criação do console e centralização da tabela
@@ -67,6 +69,9 @@ def estrategia_gulosa(pesoMax, custo, beneficio, tam, mochila):
     Console().rule("")
     
     return final, benefGulosa
+
+# -------------------------------------------------------------------------------------------------------------------- #
+
 
 def estrategia_programacao_dinamica(pesoMax, custo, beneficio, tam, mochila):
     
@@ -99,14 +104,16 @@ def estrategia_programacao_dinamica(pesoMax, custo, beneficio, tam, mochila):
     
     final = time.time() - inicio
     
+    main.clear_terminal()
+    
     # Printando os resultados
     Console().rule("Programação dinâmica")
     
     # Configuração da tabela
     table = Table(title="Programação dinâmica", show_header=True, header_style="bold magenta")
-    table.add_column("Custo benefício", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Peso máximo restante", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Tempo da programação dinâmica", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Custo benefício", justify="center", style="yellow", no_wrap=True)
+    table.add_column("Peso máximo restante", justify="center", style="red", no_wrap=True)
+    table.add_column("Tempo da programação dinâmica", justify="center", style="purple", no_wrap=True)
     table.add_row(str(maior[0]), str(pesoMaxRestante), str(final))
     
     # Criação do console e centralização da tabela

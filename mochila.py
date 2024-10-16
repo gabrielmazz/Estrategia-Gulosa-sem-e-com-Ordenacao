@@ -92,5 +92,10 @@ class struct:
         
             arquivo.write(f"Arquivo de entrada: {self.entrada}\n")
             arquivo.write(f"Tempo de abertura do arquivo: {self.tempo_abertura_arquivo:.10f}\n")
-            arquivo.write(f"Tempo da estratégia gulosa: {self.tempo_final:.10f}\n")
-            arquivo.write(f"Benefício da estratégia gulosa: {self.benefGulosa}\n")
+            
+            if self.estrategia == "1":
+                arquivo.write(f"Tempo da estratégia gulosa: {self.tempo_final:.10f}\n")
+                arquivo.write(f"Benefício da estratégia gulosa: {self.benefGulosa}\n")
+            else:
+                arquivo.write(f"Tempo da estratégia programação dinâmica: {self.tempo_final:.10f}\n")
+                arquivo.write(f"Benefício máximo da estratégia programação dinâmica: {max(self.beneficio)}\n")
