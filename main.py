@@ -16,7 +16,7 @@ if __name__ == '__main__':
     clear_terminal()
     
     # Determina qual o arquivo de entrada que será utilizado
-    arquivo = Prompt.ask("Qual arquivo de entrada deseja utilizar?\n1 - Mochila10\n2 - Mochila50\n3 - Mochila100\n4 - Mochila200\n5 - Mochila300\n6 - Mochila500\n7 - Mochila1000\n8 - Mochila1250\n9 - Mochila1500\n10 - Mochila2000\n11 - Mochila2500\n12 - Mochila3000\n13 - Mochila4000\n14 - Mochila5000\n\n", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"])
+    arquivo = Prompt.ask("Qual arquivo de entrada deseja utilizar?\n1 - Mochila10\n2 - Mochila50\n3 - Mochila100\n4 - Mochila200\n5 - Mochila300\n6 - Mochila500\n7 - Mochila1000\n8 - Mochila1250\n9 - Mochila1500\n10 - Mochila2000\n11 - Mochila2500\n12 - Mochila3000\n13 - Mochila4000\n14 - Mochila5000\n\n", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"])
     
     # Dicionário de mapeamento para os arquivos
     arquivos_mochila = {
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     
     
     # Determina se será a estratégia gulosa ou programação dinâmica
-    estrategia = Prompt.ask("Deseja utilizar a estratégia gulosa ou programação dinâmica?\n1 - Estrátegia Gulosa\n2 - Programação Dinâmica\n\n", choices=["1", "2"])
+    estrategia = Prompt.ask("Deseja utilizar a estratégia gulosa ou programação dinâmica?\n1 - Estrátegia Gulosa\n2 - Estrátegia Gulosa com Ordenação\n\n", choices=["1", "2"])
     
     clear_terminal()
     
@@ -78,9 +78,9 @@ if __name__ == '__main__':
                 tempfinal, benefGulosa = estrategias.estrategia_gulosa(mochila.pesoMax, mochila.custo, mochila.beneficio, len(mochila.beneficio), mochila)
         case "2":
             if numba == "1":
-                tempfinal, benefGulosa = estrategias_numba.estrategia_programacao_dinamica(mochila.pesoMax, mochila.custo, mochila.beneficio, len(mochila.beneficio), mochila)
+                tempfinal, benefGulosa = estrategias_numba.estrategia_gulosa_com_ordenacao(mochila.pesoMax, mochila.custo, mochila.beneficio, len(mochila.beneficio), mochila)
             else:
-                tempfinal, benefGulosa = estrategias.estrategia_programacao_dinamica(mochila.pesoMax, mochila.custo, mochila.beneficio, len(mochila.beneficio), mochila)
+                tempfinal, benefGulosa = estrategias.estrategia_gulosa_com_ordenacao(mochila.pesoMax, mochila.custo, mochila.beneficio, len(mochila.beneficio), mochila)
                 
     
     # Salva valores
