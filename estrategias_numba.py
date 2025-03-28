@@ -48,6 +48,15 @@ def selecionar_itens(custoBenef, pesoMax, tam):
             
     return armazenado, pesoMax 
 
+@jit(nopython=True)
+def selecionar_itens_ordenado(custoBenef, pesoMax, tam):
+    armazenado = []
+    for i in range(tam):  # 2n + 2
+        if custoBenef[i][1] <= pesoMax:  # 3n
+            armazenado.append(int(custoBenef[i][2]))  # 3n
+            pesoMax -= custoBenef[i][1]  # 3n
+    return armazenado, pesoMax  # 2
+
 # Função principal que executa a estratégia gulosa com temporização e exibição dos resultados
 def estrategia_gulosa(pesoMax, custo, beneficio, tam, mochila):
     
@@ -97,7 +106,7 @@ def estrategia_gulosa(pesoMax, custo, beneficio, tam, mochila):
 
 # Função para ordenar os beneficios
 def ordenar_beneficio(custoBenef):
-    return sorted(custoBenef, key=lambda x: x[0])
+    return sorted(custoBenef, key=lambda x: x[0], reverse=True) # O(n log n) + 1
 
 
 # Função principal que executa a estratégia gulosa com temporização e exibição dos resultados
@@ -107,18 +116,21 @@ def estrategia_gulosa_com_ordenacao(pesoMax, custo, beneficio, tam, mochila):
     inicio = time.time()
 
     # Convertendo listas para arrays
-    custo = np.array(custo)
-    beneficio = np.array(beneficio)
+    custo = np.array(custo) # 2
+    beneficio = np.array(beneficio) # 2
 
     # Calcula o custo benefício de cada item
-    custoBenef = calcular_custo_beneficio(custo, beneficio, tam)
+    custoBenef = calcular_custo_beneficio(custo, beneficio, tam) # 15n + 2
 
     # Ordena os itens dentro da mochila
-    custoBenef = ordenar_beneficio(custoBenef)
+    custoBenef = ordenar_beneficio(custoBenef) # O(n log n) + 1
 
     # Seleciona os itens para colocar na mochila
-    armazenado, pesoMax = selecionar_itens(custoBenef, pesoMax, tam)
+    armazenado, pesoMax = selecionar_itens_ordenado(custoBenef, pesoMax, tam) # 11n + 4
     
+    # Pior caso: n log n + 26n + 11
+    # O(n log n)
+
     # Finaliza o tempo da execução
     final = time.time() - inicio
 
@@ -144,6 +156,7 @@ def estrategia_gulosa_com_ordenacao(pesoMax, custo, beneficio, tam, mochila):
     # Printa os itens armazenados
     Console().rule("")
     console.print(f"Os itens armazenados são: {armazenado}", style="bold green", justify="center")
+
     Console().rule("")
 
     return final, benefGulosa

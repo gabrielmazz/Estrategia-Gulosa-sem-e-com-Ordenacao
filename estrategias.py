@@ -87,29 +87,19 @@ def estrategia_gulosa_com_ordenacao(pesoMax, custo, beneficio, tam, mochila):
             custoBenef.append((beneficio[i]/(custo[i]+1), custo[i], i)) # Evita divisão por zero # 6n
         else:
             custoBenef.append((beneficio[i]/custo[i], custo[i], i)) # Calcula o custo benefício # 5n
+    
+    custoBenef.sort(reverse=True, key=lambda x: x[0]) # Custo de ordenação do Timsort (utilizado pelo sort) que é O(n log n)
+    print(custoBenef)
 
-    presente = set() # 1
-    
-    custoBenef.sort(reverse=True, key=lambda x: x[0])
-    
-    for i in range(tam): # 2n + 2 
-        
-        maior = -999999 # n
-        
-        for j in range(tam): # n (2n + 2) = 2n^2 + 2n
-            if custoBenef[j][0] > maior and j not in presente: # 10n^2 + 10n
-                maior = custoBenef[j][0] # 6n^2 + 6n
-                pos = j # 2n^2 + 2n
-                
-        if custoBenef[pos][1] <= pesoMax: # Verifica se o peso do item é menor que o peso máximo # 3n
-            armazenado.append(custoBenef[pos][2]) # Armazena o item # 3n
-            pesoMax -= custoBenef[pos][1] # Subtrai o peso do item do peso máximo # 4n
-            presente.add(pos) # Adiciona o item na lista de itens armazenados # n
+    for _, peso, idx in custoBenef: # Percorre todos os itens ordenados  # 2n + 2  
+        if peso <= pesoMax: # Verifica se o item cabe na mochila  # n  
+            armazenado.append(idx) # Adiciona o item na mochila  # 2n  
+            pesoMax -= peso # Atualiza o peso restante da mochila  # n  
             
-    final = time.time() - inicio
+    final = time.time() - inicio # Mede o tempo de execução  # 1 
     
-    # 20n^2 + 44n + 5 pior caso
-    # O(n^2)
+    # Pior caso: 20n + 5 + n log n
+    # O(n log n)
     
     benefGulosa = 0
 
