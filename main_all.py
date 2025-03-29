@@ -47,13 +47,6 @@ if __name__ == '__main__':
     numba = Prompt.ask("Deseja utilizar o Numba para otimização?\n1 - Sim\n2 - Não\n\n", choices=["1", "2"])
     clear_terminal()
     
-    
-    lista_tempo_guloso_sem_ordenacao = []
-    lista_tempo_guloso_com_ordenacao = []
-    lista_tempo_guloso_sem_ordenacao_numba = []
-    lista_tempo_guloso_com_ordenacao_numba = []
-        
-    
     # Loop para cada arquivo
     tempos_execucao = []
 
@@ -66,8 +59,7 @@ if __name__ == '__main__':
             print(f"Erro: O arquivo {caminho_arquivo_entrada} não foi encontrado.")
             continue  # Pula para o próximo arquivo se o arquivo atual não for encontrado
         
-        # Executa o processo 6 vezes para cálculo da média de tempo
-        for i in range(6):
+        for i in range(1):
             
             # Limpa o terminal
             clear_terminal()
@@ -114,7 +106,7 @@ if __name__ == '__main__':
             # Finaliza a contagem de tempo e armazena o tempo de execução
             tempo_fim = time.time()
             tempo_execucao = tempo_fim - tempo_inicio
-            tempos_execucao.append(tempo_execucao)
+            
             
             
             # Salva os resultados na classe
@@ -128,52 +120,45 @@ if __name__ == '__main__':
         
 
         # Calcula a média dos tempos de execução
-        media_tempo_execucao = sum(tempos_execucao) / len(tempos_execucao)
+        #media_tempo_execucao = sum(tempos_execucao) / len(tempos_execucao)
         
-        if tipo_estrategia == "Gulosa sem Numba":
-            lista_tempo_guloso_sem_ordenacao.append(media_tempo_execucao)
-        elif tipo_estrategia == "Gulosa com Ordenação sem Numba":
-            lista_tempo_guloso_com_ordenacao.append(media_tempo_execucao)
-        elif tipo_estrategia == "Gulosa com Numba":
-            lista_tempo_guloso_sem_ordenacao_numba.append(media_tempo_execucao)
-        elif tipo_estrategia == "Gulosa com Ordenação e Numba":
-            lista_tempo_guloso_com_ordenacao_numba.append(media_tempo_execucao)
-            
-        print(lista_tempo_guloso_sem_ordenacao)
+        # Escreve qual mochila foi utilizada pegando apenas o numero do caminho
+        numero_mochila = caminho_arquivo_entrada.split("/")[-1].split(".")[0]
         
-        # Escreve a média de tempo no arquivo de resultados com informações adicionais
-        with open(f"resultados_{key}.txt", "a") as arquivo_resultado:
-            arquivo_resultado.write(f"\nEstratégia utilizada: {tipo_estrategia}\n")
-            arquivo_resultado.write(f"Média de tempo de execução para {caminho_arquivo_entrada}: {media_tempo_execucao:.4f} segundos\n")
-                
-        # Limpa a lista de tempos para o próximo arquivo
-        tempos_execucao.clear()
-
-    print("Processamento concluído para todos os arquivos.") 
-    
-    # Escreve as listas de tempo em um arquivo de resultados
-    with open("resultados.txt", "a") as arquivo_resultado: 
-        
-        if lista_tempo_guloso_sem_ordenacao:
-            media_tempo_guloso_sem_ordenacao = sum(lista_tempo_guloso_sem_ordenacao) / len(lista_tempo_guloso_sem_ordenacao)
-            arquivo_resultado.write(f"Média de tempo de execução para Estratégia Gulosa sem Numba: {media_tempo_guloso_sem_ordenacao:.4f} segundos\n")
-            arquivo_resultado.write(f"Lista de tempos: {lista_tempo_guloso_sem_ordenacao}\n")
-            arquivo_resultado.write("\n")
+        # Retira o "Mochila" do nome do arquivo
+        numero_mochila = numero_mochila.replace("Mochila", "")
+         
+        # Escre os resultados em um arquivo
+        with open(f'./Resultados/Resultado_{numero_mochila}_{tipo_estrategia}.txt', 'w') as arquivo:
             
-        if lista_tempo_guloso_com_ordenacao:
-            media_tempo_guloso_com_ordenacao = sum(lista_tempo_guloso_com_ordenacao) / len(lista_tempo_guloso_com_ordenacao)
-            arquivo_resultado.write(f"Média de tempo de execução para Estratégia Gulosa com Ordenação sem Numba: {media_tempo_guloso_com_ordenacao:.4f} segundos\n")
-            arquivo_resultado.write(f"Lista de tempos: {lista_tempo_guloso_com_ordenacao}\n")
-            arquivo_resultado.write("\n")
+            if estrategia == "1":
+                if numba == "1":
+                    
+                    if os.path.exists(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Numba.txt'):
+                        os.remove(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Numba.txt')
+                    
+                    arquivo.write("Estratégia Gulosa com otimização Numba\n")
+                    
+                else:
+                    
+                    if os.path.exists(f'./Resultados/Resultado_{numero_mochila}_Gulosa.txt'):
+                        os.remove(f'./Resultados/Resultado_{numero_mochila}_Gulosa.txt')
+                    
+                    arquivo.write("Estratégia Gulosa sem otimização Numba\n")
+            else:
+                if numba == "1":
+                    
+                    if os.path.exists(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Ordenado_Numba.txt'):
+                        os.remove(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Ordenado_Numba.txt')
+                    
+                    arquivo.write("Estratégia Gulosa com Ordenação e otimização Numba\n")
+                else:
+                    
+                    if os.path.exists(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Ordenado.txt'):
+                        os.remove(f'./Resultados/Resultado_{numero_mochila}_Gulosa_Ordenado.txt')
+                        
+                    arquivo.write("Estratégia Gulosa com Ordenação sem otimização Numba\n")
             
-        if lista_tempo_guloso_sem_ordenacao_numba:
-            media_tempo_guloso_sem_ordenacao_numba = sum(lista_tempo_guloso_sem_ordenacao_numba) / len(lista_tempo_guloso_sem_ordenacao_numba)
-            arquivo_resultado.write(f"Média de tempo de execução para Estratégia Gulosa com Numba: {media_tempo_guloso_sem_ordenacao_numba:.4f} segundos\n")
-            arquivo_resultado.write(f"Lista de tempos: {lista_tempo_guloso_sem_ordenacao_numba}\n")
-            arquivo_resultado.write("\n")
-            
-        if lista_tempo_guloso_com_ordenacao_numba:
-            media_tempo_guloso_com_ordenacao_numba = sum(lista_tempo_guloso_com_ordenacao_numba) / len(lista_tempo_guloso_com_ordenacao_numba)
-            arquivo_resultado.write(f"Média de tempo de execução para Estratégia Gulosa com Ordenação e Numba: {media_tempo_guloso_com_ordenacao_numba:.4f} segundos\n")
-            arquivo_resultado.write(f"Lista de tempos: {lista_tempo_guloso_com_ordenacao_numba}\n")
-            arquivo_resultado.write("\n")
+            arquivo.write(f"Arquivo de entrada: {caminho_arquivo_entrada}\n")
+            arquivo.write(f"Tempo médio de execução: {tempo_execucao:.10f} segundos\n")
+            arquivo.write(f"Benefício total: {benefGulosa}\n")

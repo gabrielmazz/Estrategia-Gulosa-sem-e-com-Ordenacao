@@ -1,0 +1,4 @@
+Estratégia Gulosa com otimização Numba
+Arquivo de entrada: ./Entradas/Mochila750.txt
+Tempo médio de execução: 0.0240638256 segundos
+Benefício total: 18050

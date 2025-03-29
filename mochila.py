@@ -59,51 +59,55 @@ class struct:
         
     def escreve_arquivo_txt(self):
         
-        with open(f'Resultado_{self.entrada}.txt', 'w') as arquivo:
+        with open(f'./Resultados/Resultado_{self.entrada}.txt', 'w') as arquivo:
             
             # Verifica qual estratégia foi utilizada e se teve otimização
             if self.estrategia == "1":
                 if self.otimizacao == "1":
                     
                     # Verifica se o arquivo existe na pasta
-                    if os.path.exists(f'Resultado_{self.entrada}_Gulosa_Numba.txt'):
-                        os.remove(f'Resultado_{self.entrada}_Gulosa_Numba.txt')    
+                    if os.path.exists(f'./Resultados/Resultado_{self.entrada}_Gulosa_Numba.txt'):
+                        os.remove(f'./Resultados/Resultado_{self.entrada}_Gulosa_Numba.txt')    
                     
-                    arquivo.write("Estratégia gulosa com otimização Numba\n")
-                    os.rename(f'Resultado_{self.entrada}.txt', f'Resultado_{self.entrada}_Gulosa_Numba.txt')
-                   
+                    arquivo.write("Estratégia Gulosa com otimização Numba\n")
+                    os.rename(f'./Resultados/Resultado_{self.entrada}.txt', f'./Resultados/Resultado_{self.entrada}_Gulosa_Numba.txt')
+                    
                 else:
-                    
-                    if os.path.exists(f'Resultado_{self.entrada}_Gulosa.txt'):
-                        os.remove(f'Resultado_{self.entrada}_Gulosa.txt')
-                
-                    arquivo.write("Estratégia gulosa sem otimização\n")
-                    os.rename(f'Resultado_{self.entrada}.txt', f'Resultado_{self.entrada}_Gulosa.txt')
-            else:
-                
-                if self.otimizacao == "1":
-                
                     # Verifica se o arquivo existe na pasta
-                    if os.path.exists(f'Resultado_{self.entrada}_Gulosa_Numba_Ordenada.txt'):
-                        os.remove(f'Resultado_{self.entrada}_Gulosa_Numba_ordenada.txt')    
-                   
-                    arquivo.write("Estratégia gulosa (Ordenada) com otimização Numba\n")
-                    os.rename(f'Resultado_{self.entrada}.txt', f'Resultado_{self.entrada}_Gulosa_Numba_Ordenada.txt')
-
+                    if os.path.exists(f'./Resultados/Resultado_{self.entrada}_Gulosa.txt'):
+                        os.remove(f'./Resultados/Resultado_{self.entrada}_Gulosa.txt')    
+                    
+                    arquivo.write("Estratégia Gulosa sem otimização Numba\n")
+                    os.rename(f'./Resultados/Resultado_{self.entrada}.txt', f'./Resultados/Resultado_{self.entrada}_Gulosa.txt')
+                    
+            else:
+                if self.otimizacao == "1":
+                    
+                    # Verifica se o arquivo existe na pasta
+                    if os.path.exists(f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao_Numba.txt'):
+                        os.remove(f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao_Numba.txt')    
+                    
+                    arquivo.write("Estratégia Gulosa com ordenação e otimização Numba\n")
+                    os.rename(f'./Resultados/Resultado_{self.entrada}.txt', f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao_Numba.txt')
+                    
                 else:
                     
-                    if os.path.exists(f'Resultado_{self.entrada}_Gulosa_Ordenada.txt'):
-                        os.remove(f'Resultado_{self.entrada}_Gulosa_Ordenada.txt')
+                    # Verifica se o arquivo existe na pasta
+                    if os.path.exists(f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao.txt'):
+                        os.remove(f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao.txt')    
                     
-                    arquivo.write("Estratégia gulosa (Ordenada) sem otimização\n")
-                    os.rename(f'Resultado_{self.entrada}.txt', f'Resultado_{self.entrada}_Gulosa_Ordenada.txt')
-        
-            arquivo.write(f"Arquivo de entrada: {self.entrada}\n")
+                    arquivo.write("Estratégia Gulosa com ordenação sem otimização Numba\n")
+                    os.rename(f'./Resultados/Resultado_{self.entrada}.txt', f'./Resultados/Resultado_{self.entrada}_Gulosa_Ordenacao.txt')
+            
+            arquivo.write(f"Arquivo de entrada: {self.caminho_arquivo_entrada}\n")
             arquivo.write(f"Tempo de abertura do arquivo: {self.tempo_abertura_arquivo:.10f}\n")
             
-            if self.estrategia == "1":
+            if self.otimizacao == "1":
                 arquivo.write(f"Tempo da estratégia gulosa: {self.tempo_final:.10f}\n")
-                arquivo.write(f"Benefício da estratégia gulosa: {self.benefGulosa}\n")
+                arquivo.write(f"Benefício total da estratégia gulosa: {self.benefGulosa}\n")
+                
             else:
-                arquivo.write(f"Tempo da estratégia gulosa (Ordenada): {self.tempo_final:.10f}\n")
-                arquivo.write(f"Benefício da estratégia gulosa (Ordenada): {max(self.beneficio)}\n")
+                arquivo.write(f"Tempo da estratégia gulosa com ordenação: {self.tempo_final:.10f}\n")
+                arquivo.write(f"Benefício total da estratégia gulosa com ordenação: {self.benefGulosa}\n")
+                
+        arquivo.close()
