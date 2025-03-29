@@ -89,7 +89,6 @@ def estrategia_gulosa_com_ordenacao(pesoMax, custo, beneficio, tam, mochila):
             custoBenef.append((beneficio[i]/custo[i], custo[i], i)) # Calcula o custo benefício # 5n
     
     custoBenef.sort(reverse=True, key=lambda x: x[0]) # Custo de ordenação do Timsort (utilizado pelo sort) que é O(n log n)
-    print(custoBenef)
 
     for _, peso, idx in custoBenef: # Percorre todos os itens ordenados  # 2n + 2  
         if peso <= pesoMax: # Verifica se o item cabe na mochila  # n  
